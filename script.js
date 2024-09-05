@@ -42,7 +42,7 @@ const classes = {
 
 async function loadModel() {
     try {
-        model = await tf.loadGraphModel('./tfjs_model/content/tfjs_model/model.json');
+        model = await tf.loadGraphModel('./tfjs_model/model.json');
         const modeltag = document.getElementById('modelTag');
         modeltag.innerHTML = `<u>Try Model( Loaded! )</u>`;
         console.log('Model loaded successfully');
