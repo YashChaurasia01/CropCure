@@ -2,136 +2,49 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Machine Learning Model</title>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+
 </head>
-<!-- <style>
-	body {
-		/* background-color: whitesmoke; */
-		background: linear-gradient(180deg, #5C258D, #4389A2);
-		font-family: 'Sora', sans-serif;
-		/* background-color: rgb(204, 173, 255); */
-	}
-
-	.heading {
-		color: #81ECEC;
-		font-weight: bold;
-	}
-
-	.sub {
-		color: #d2bdff;
-	}
-
-	.nav {
-		border-bottom: 2px solid white;
-	}
-
-	.navbar {
-		background: linear-gradient(90deg, #4389A2, #5C258D);
-	}
-
-	.btn {
-		border: 2px solid #00cec9;
-		padding: 10px 50px;
-		border-radius: 50px;
-		background-color: #81ecec;
-		transition: 1s;
-		font-weight: bold;
-		/* font-size: 20px; */
-	}
-
-	.btn:hover {
-		background-color: #81ecec;
-		border: 2px solid #ffffff;
-		cursor: pointer;
-	}
-
-	.container {
-		background-color: rgba(255, 255, 255, 0.9);
-		border-radius: 10px;
-		padding: 20px;
-		margin-top: 20px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
-
-	.b {
-		/* border: 4px solid #A2CDFF; */
-		background-color: #2a272f;
-	}
-
-	h2 {
-		color: #333;
-	}
-
-	h3 {
-		color: #fff;
-	}
-
-	p {
-		color: #555;
-	}
-
-	input[type="file"] {
-		margin-bottom: 10px;
-	}
-
-	.social {
-		margin: 20px 10px;
-		padding: 5px 10px;
-		font-size: 2px;
-	}
-
-
-
-	footer {
-		background: linear-gradient(90deg, #4389A2, #5C258D);
-		color: #000000;
-		text-align: center;
-		padding: 10px 0;
-		/* position: fixed; */
-		bottom: 0;
-		width: 100%;
-	}
-
-	/* utility */
-	.bold {
-		font-weight: bold;
-	}
-</style> -->
 
 <body>
 
-	<!-- Navigation bar -->
-	<div id="header" class="sticky-top b p-2 text-white nav">
-		<h3 class="text-center heading text-black">CropCure Model</h3>
-	</div>
+    <!-- Navigation bar -->
+    <div id="header" class="sticky-top b p-2 text-white nav">
+        <h3 class="text-center heading text-black">CropCure Model</h3>
+    </div>
 
-	<!-- Model Use Case -->
-	<div class="container mt-3 p-4 shadow-lg rounded-3 b" id="model">
-		<h2 class="text-center bold sub" id="modelTag">Use Model ( loading... )</h2>
-		<div class="row mt-3">
-			<div class="col-md-12">
-				<h5 class="mb-3">Image Input :</h5>
-				<input type="file" id="imageInput" class="form-control mb-3" accept="image/*" style="width: 100%;">
-				<button class="btn text-black btn-primary mx-auto d-block mb-3" onclick="detectImage()">Detect</button>
-			</div>
-		</div>
-		<div class="row mt-3 text-center" id="imageContainer">
-			<div class="col-md-12">
-				<div></div>
-			</div>
-		</div>
-	</div>
+    <!-- Model Use Case -->
+    <div class="container mt-3 p-4 shadow-lg rounded-3 b" id="model">
+        <h2 class="text-center bold sub" id="modelTag">Use Model ( loading... )</h2>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <h5 class="mb-3">Image Input :</h5>
+                <input type="file" id="imageInput" class="form-control mb-3" accept="image/*" style="width: 100%;">
+                <button class="btn text-black btn-primary mx-auto d-block mb-3" onclick="detectImage()">Detect</button>
+            </div>
+        </div>
+        <div class="row mt-3 text-center" id="imageContainer">
+            <div class="col-md-12">
+                <div></div>
+            </div>
+        </div>
 
-
-
+        <!-- New section for displaying treatment -->
+        <div class="row mt-3 text-center" id="treatmentContainer">
+            <div class="col-md-12">
+                <h5 class="mt-4">Treatment:</h5>
+                <p id="treatmentText" class="text-white"></p>
+            </div>
+        </div>
+    </div>
 
 </body>
 <script src="script.js"></script>
