@@ -95,7 +95,7 @@ function detectImage() {
                     .resizeNearestNeighbor([256, 256])
                     .toFloat()
                     .expandDims();
-                const scaledImg = imageTensor.div(255);
+                const scaledImg = imageTensor;
 
                 // Make predictions on the scaled image
                 const prediction = await model.predict(scaledImg).data();
