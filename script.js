@@ -99,6 +99,7 @@ function detectImage() {
 
                 // Make predictions on the scaled image
                 const prediction = await model.predict(scaledImg).data();
+                console.log(prediction);
                 const predictedClass = classes[prediction.indexOf(Math.max(...prediction))];
 
                 imageContainer.innerHTML += `<p class='mt-2 fw-bold fs-1'>Predicted Class: ${predictedClass}</p>`;
