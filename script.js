@@ -143,10 +143,10 @@ function detectImage() {
 
                 // Make predictions using the loaded model
                 const prediction = await model.predict(scaledImg).data();
-                
+
                 // Debug: Log predictions
                 console.log('Predictions:', prediction);
-                
+
                 const maxPredictionIndex = prediction.indexOf(Math.max(...prediction));
                 const predictedClass = classes[maxPredictionIndex];
 
@@ -155,7 +155,7 @@ function detectImage() {
 
                 // Display predicted class and corresponding treatment
                 imageContainer.innerHTML += `<p class='mt-2 fw-bold fs-1'>Predicted Class: ${predictedClass}</p>`;
-                
+
                 // Check if treatment exists for the predicted class
                 const treatment = treatments[predictedClass];
                 if (treatment) {
@@ -177,3 +177,50 @@ window.onload = function () {
     loadModel(); // Load the model
     document.getElementById('imageInput').addEventListener('change', handleImageUpload); // Add event listener for image upload
 };
+
+/* ------------------------------------------------------------------
+   Drag & drop support for the upload tray.
+   This only feeds files into the existing #imageInput and fires the
+   same 'change' event that handleImageUpload() listens for above.
+   No model or prediction logic is touched here.
+   ------------------------------------------------------------------ */
+(function () {
+  const dropzone = document.getElementById('dropzone');
+  const imageInput = document.getElementById('imageInput');
+
+  if (!dropzone || !imageInput) return;
+
+  ['dragenter', 'dragover'].forEach(evt => {
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('is-dragover');
+    });
+  });
+
+  ['dragleave', 'dragend', 'drop'].forEach(evt => {
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('is-dragover');
+    });
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    const files = e.dataTransfer && e.dataTransfer.files;
+    if (!files || !files.length) return;
+
+    const file = files[0];
+    if (!file.type.startsWith('image/')) return;
+
+    // Assign the dropped file to the real file input, then dispatch
+    // a change event so the existing handleImageUpload() runs unchanged.
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    imageInput.files = dataTransfer.files;
+    imageInput.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+
+  // Allow clicking anywhere in the tray (not just the label button) to browse.
+  dropzone.addEventListener('click', () => imageInput.click());
+})();
